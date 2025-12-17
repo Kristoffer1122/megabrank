@@ -1,6 +1,7 @@
-#include <raylib.h>
 #ifndef PLAYER_H
 #define PLAYER_H
+
+#include <raylib.h>
 
 typedef struct {
   int health;
@@ -8,7 +9,7 @@ typedef struct {
   float speed;
   float direction;
   Model model;
-  Mesh mesh;
+  Texture2D texture;
 
 } Player;
 
@@ -16,7 +17,7 @@ extern Player player;
 
 void init_player(Player* player);
 
-void update_player(Player* player);
+void update_player(Player* player, float camera_angle);
 
 void draw_player(Player* player);
 

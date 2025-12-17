@@ -23,16 +23,18 @@ int main() {
   while (!WindowShouldClose()) {
     Time.delta_time = GetFrameTime();
     Time.game_time += Time.delta_time;
-    UpdateGameCamera(&game_camera, player.position);
 
     BeginDrawing();
-    ClearBackground(RAYWHITE);
+    ClearBackground((Color){135, 206, 235, 255});
 
     BeginMode3D(game_camera.camera);
+    update_player(&player, game_camera.angle_horizontal);
 
-    update_player(&player);
+    UpdateGameCamera(&game_camera, player.position);
+
     draw_player(&player);
 
+    DrawPlane((Vector3){0.0f, 0.0f, 0.0f}, (Vector2){1000.0f, 1000.0f}, GREEN);
     DrawGrid(100, 10.0f);
     EndMode3D();
 
