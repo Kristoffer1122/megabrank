@@ -50,7 +50,7 @@ bool CanMoveTo(Vector3 from, Vector3 to, Model *mapModel) {
     RayCollision collision =
         GetRayCollisionMesh(ray, mapModel->meshes[i], MatrixIdentity());
 
-    // if hit something closer than destination, can't move there
+    // if hit something closer than destination
     if (collision.hit && collision.distance < distance) {
       return false;
     }

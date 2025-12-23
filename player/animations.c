@@ -1,15 +1,13 @@
 #include "animations.h"
-#include "../camera/camera.h"
-#include "player.h"
 #include <raylib.h>
 #include <raymath.h>
 #include <stdlib.h>
 
 Animation animation = {0};
 
-void LoadAnimationFromM3D(Animation *anim) {
+void LoadAnimation(Animation *anim) {
   if (anim == NULL) {
-    TraceLog(LOG_ERROR, "LoadAnimationFromM3D: anim is NULL");
+    TraceLog(LOG_ERROR, "LoadAnimation: anim is NULL");
     return;
   }
 
@@ -17,16 +15,16 @@ void LoadAnimationFromM3D(Animation *anim) {
   anim->model = LoadModel("assets/models/knight/cavaleiro.m3d");
 
   if (anim->model.meshCount == 0) {
-    TraceLog(LOG_ERROR, "Failed to load M3D model");
+    TraceLog(LOG_ERROR, "Failed to load model");
     return;
   }
 
-  // Load animations from M3D
+  // Load animations
   anim->animations = LoadModelAnimations("assets/models/knight/cavaleiro.m3d",
                                          &anim->animationCount);
 
   if (anim->animations == NULL || anim->animationCount == 0) {
-    TraceLog(LOG_WARNING, "No animations found in M3D file!");
+    TraceLog(LOG_WARNING, "No animations found in file!");
     anim->animationCount = 0;
     return;
   }
@@ -37,7 +35,7 @@ void LoadAnimationFromM3D(Animation *anim) {
   anim->animFrameSpeed = 1.0f;
   anim->isPaused = false;
 
-  TraceLog(LOG_INFO, "Loaded M3D model with %d animations, %d bones",
+  TraceLog(LOG_INFO, "Loaded model with %d animations, %d bones",
            anim->animationCount, anim->model.boneCount);
 
   for (int i = 0; i < anim->animationCount; i++) {
@@ -45,10 +43,9 @@ void LoadAnimationFromM3D(Animation *anim) {
              anim->animations[i].frameCount, anim->animations[i].boneCount);
   }
 
-  // Initialize to frame 0 (this should work with M3D)
-  TraceLog(LOG_INFO, "Initializing M3D animation to frame 0...");
+  TraceLog(LOG_INFO, "Initializing animation to frame 0...");
   UpdateModelAnimation(anim->model, anim->animations[0], 0);
-  TraceLog(LOG_INFO, "M3D animation initialized successfully");
+  TraceLog(LOG_INFO, "Animation initialized successfully");
 }
 
 void UpdateAnimation(Animation *anim) {
@@ -82,7 +79,6 @@ void DrawAnimation(Animation *anim, Vector3 position, float direction,
   if (anim == NULL || anim->model.meshCount == 0)
     return;
 
-  // draw model facing direction
   DrawModelEx(anim->model, position, (Vector3){0.0f, 1.0f, 0.0f},
               direction * RAD2DEG, (Vector3){scale, scale, scale}, tint);
 }

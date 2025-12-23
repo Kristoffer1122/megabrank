@@ -2,6 +2,7 @@
 #include "../map/map.h"
 #include "../physics/collision.h"
 #include "../time/time.h"
+#include "animations.h"
 #include <raylib.h>
 #include <raymath.h>
 
@@ -13,8 +14,9 @@ void init_player(Player *player) {
   player->speed = 5.0f;
   player->direction = 0.0f;
   player->max_step_height = 0.001f;
-  player->jump_force = GRAVITY + 1.0f;
+  player->jump_force = 5.0f;
   player->velocity = (Vector3){0.0f, 0.0f, 0.0f};
+  player->is_moving = false;
 }
 
 void update_player(Player *player, float camera_angle) {
@@ -77,6 +79,22 @@ void update_player(Player *player, float camera_angle) {
       angle_diff += 2.0f * PI;
 
     player->direction += angle_diff * rotation_speed * Time.delta_time;
+  }
+
+  player->position.y += player->velocity.y * Time.delta_time;
+  player->position.x += player->velocity.x * Time.delta_time;
+
+  float min_movement_threshold = 0.1f;
+  float horizontal_speed =
+      sqrtf(player->velocity.x * player->velocity.x +
+            player->velocity.z * player->velocity.z);
+
+  player->is_moving = (horizontal_speed > min_movement_threshold);
+
+  if (player->is_moving) {
+     PlayAnimation(&animation, ANIM_WALK);
+  } else {
+     PlayAnimation(&animation, ANIM_IDLE);
   }
 
   // GRAVITY and ground collision

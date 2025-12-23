@@ -13,6 +13,7 @@ typedef struct {
   float max_step_height;
   Model model;
   Texture2D texture;
+  bool is_moving;
 
 } Player;
 

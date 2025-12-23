@@ -16,7 +16,7 @@ int main() {
 
   init_map(&map);
   init_player(&player);
-  LoadAnimationFromM3D(&animation);
+  LoadAnimation(&animation);
 
   InitGameCamera(&game_camera, (Vector3){10.0f, 10.0f, 10.0f});
   SetCameraMode(&game_camera, CAMERA_THIRD_PERSON);

@@ -13,13 +13,8 @@ void init_map(Map *map) {
   char cwd[1024];
   getcwd(cwd, sizeof(cwd));
 
-  map->model = LoadModel("assets/Castle/CastleOBJ.obj");
-
-  // go back to start directory
-  chdir(cwd);
-
-  TraceLog(LOG_INFO, "Castle loaded:  %d meshes, %d materials",
-           map->model.meshCount, map->model.materialCount);
+  // Load model (this changes the working directory!)
+  map->model = LoadModel("assets/models/map.glb");
 }
 
 void draw_map(Map *map) {
