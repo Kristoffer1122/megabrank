@@ -14,6 +14,8 @@ typedef struct {
   float distance;
 } GameCamera;
 
+extern GameCamera game_camera;
+
 void InitGameCamera(GameCamera *cam, Vector3 initial_position);
 void UpdateGameCamera(GameCamera *cam, Vector3 target_position);
 void SetCameraMode(GameCamera *cam, CameraMode mode);

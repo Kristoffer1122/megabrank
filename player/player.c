@@ -11,10 +11,10 @@ void init_player(Player *player) {
   player->direction = 0.0f;
 
   // player model and texture
-  player->model = LoadModel("assets/models/knight/knight.obj");
-  Texture2D texture = LoadTexture("assets/models/knight/armor.jpg");
-  player->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
-
+  // player->model = LoadModel("assets/models/knight/knight.obj");
+  // Texture2D texture = LoadTexture("assets/models/knight/armor.jpg");
+  // player->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
+  //
 }
 
 void update_player(Player *player, float camera_angle) {
