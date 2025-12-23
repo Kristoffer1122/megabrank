@@ -1,26 +1,23 @@
 #include "camera/camera.h"
+#include "map/map.h"
 #include "player/animations.h"
 #include "player/player.h"
 #include "time/time.h"
 #include <raylib.h>
 #include <raymath.h>
 
+// global vars
+Player player = {0};
+GameCamera game_camera = {0};
+
 int main() {
 
   InitWindow(1200, 800, "MEGABRANK");
 
-  Player player = {0};
+  init_map(&map);
   init_player(&player);
-  // Debug: Check if animation pointer is valid
-  TraceLog(LOG_INFO, "Animation struct address: %p", (void *)&animation);
-
-  // Try loading
-  TraceLog(LOG_INFO, "About to load animation...");
   LoadAnimationFromM3D(&animation);
 
-  TraceLog(LOG_INFO, "Animation loaded!"); // Initialize camera
-   //
-  GameCamera game_camera = {0};
   InitGameCamera(&game_camera, (Vector3){10.0f, 10.0f, 10.0f});
   SetCameraMode(&game_camera, CAMERA_THIRD_PERSON);
 
@@ -42,8 +39,9 @@ int main() {
     BeginMode3D(game_camera.camera);
 
     // draw_player(&player);
-    DrawAnimation(&animation, player.position, 5.0f, WHITE);
+    DrawAnimation(&animation, player.position, player.direction, 5.0f, WHITE);
 
+    draw_map(&map);
     DrawPlane((Vector3){0.0f, 0.0f, 0.0f}, (Vector2){1000.0f, 1000.0f}, BLACK);
     DrawGrid(100, 10.0f);
     EndMode3D();
@@ -53,6 +51,7 @@ int main() {
 
   UnloadAnimation(&animation);
   unload_player(&player);
+  unload_map(&map);
   CloseWindow();
   return 0;
 }

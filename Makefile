@@ -1,6 +1,6 @@
 src = $(wildcard *.c */*.c)
 
-LDFLAGS += -lraylib
+LDFLAGS += -lraylib -lm
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g

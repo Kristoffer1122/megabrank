@@ -8,6 +8,9 @@ typedef struct {
   Vector3 position;
   float speed;
   float direction;
+  Vector3 velocity;
+  float jump_force;
+  float max_step_height;
   Model model;
   Texture2D texture;
 

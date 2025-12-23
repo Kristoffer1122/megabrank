@@ -77,13 +77,14 @@ void UpdateAnimation(Animation *anim) {
   }
 }
 
-void DrawAnimation(Animation *anim, Vector3 position, float scale, Color tint) {
+void DrawAnimation(Animation *anim, Vector3 position, float direction,
+                   float scale, Color tint) {
   if (anim == NULL || anim->model.meshCount == 0)
     return;
 
-  // Just draw the model normally - it already has bone transforms applied
-  DrawModel(anim->model, position, scale, tint);
-  update_player(&player, game_camera.angle_horizontal);
+  // draw model facing direction
+  DrawModelEx(anim->model, position, (Vector3){0.0f, 1.0f, 0.0f},
+              direction * RAD2DEG, (Vector3){scale, scale, scale}, tint);
 }
 
 void UnloadAnimation(Animation *anim) {

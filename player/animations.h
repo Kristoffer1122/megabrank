@@ -16,9 +16,9 @@ typedef struct {
 
 extern Animation animation;
 
-void LoadAnimationFromM3D(Animation *anim);  // Renamed for clarity
+void LoadAnimationFromM3D(Animation *anim);
 void UpdateAnimation(Animation *anim);
-void DrawAnimation(Animation *anim, Vector3 position, float scale, Color tint);
+void DrawAnimation(Animation *anim, Vector3 position, float direction, float scale, Color tint);
 void UnloadAnimation(Animation *anim);
 void SetAnimationSpeed(Animation *anim, float speed);
 void PlayAnimation(Animation *anim, int animIndex);

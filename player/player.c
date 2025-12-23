@@ -1,20 +1,20 @@
 #include "player.h"
+#include "../map/map.h"
+#include "../physics/collision.h"
 #include "../time/time.h"
 #include <raylib.h>
 #include <raymath.h>
-#include <stdio.h>
+
+#define GRAVITY 9.81f
 
 void init_player(Player *player) {
   player->health = 100;
   player->position = (Vector3){0.0f, 0.0f, 0.0f};
   player->speed = 5.0f;
   player->direction = 0.0f;
-
-  // player model and texture
-  // player->model = LoadModel("assets/models/knight/knight.obj");
-  // Texture2D texture = LoadTexture("assets/models/knight/armor.jpg");
-  // player->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
-  //
+  player->max_step_height = 0.001f;
+  player->jump_force = GRAVITY + 1.0f;
+  player->velocity = (Vector3){0.0f, 0.0f, 0.0f};
 }
 
 void update_player(Player *player, float camera_angle) {
@@ -30,9 +30,16 @@ void update_player(Player *player, float camera_angle) {
   if (IsKeyDown(KEY_D))
     input.x = 1.0f;
 
+  // jump if on ground
+  if (IsKeyPressed(KEY_SPACE)) {
+    float ground_height = GetGroundHeight(player->position, &map.model);
+    if (player->position.y <= ground_height + 0.1f) {
+      player->velocity.y = player->jump_force;
+    }
+  }
+
   // only move if there's input
   if (input.x != 0.0f || input.y != 0.0f) {
-
     // normalize diagonal movement
     float length = sqrtf(input.x * input.x + input.y * input.y);
     input.x /= length;
@@ -45,10 +52,17 @@ void update_player(Player *player, float camera_angle) {
     float rotated_x = input.x * cos_angle + input.y * sin_angle;
     float rotated_z = -input.x * sin_angle + input.y * cos_angle;
 
-    // move player
     float move_speed = player->speed * Time.delta_time;
-    player->position.x += rotated_x * move_speed;
-    player->position.z += rotated_z * move_speed;
+    Vector3 target_position = {player->position.x + rotated_x * move_speed,
+                               player->position.y,
+                               player->position.z + rotated_z * move_speed};
+
+    // move player
+    if (CanMoveTo(player->position, target_position, &map.model)) {
+      float move_speed = player->speed * Time.delta_time;
+      player->position.x += rotated_x * move_speed;
+      player->position.z += rotated_z * move_speed;
+    }
 
     // player always faces movement direction
     float target_direction = atan2f(rotated_x, rotated_z);
@@ -63,6 +77,21 @@ void update_player(Player *player, float camera_angle) {
       angle_diff += 2.0f * PI;
 
     player->direction += angle_diff * rotation_speed * Time.delta_time;
+  }
+
+  // GRAVITY and ground collision
+  player->velocity.y -= GRAVITY * Time.delta_time;
+
+  // gravity on player
+  player->position.y += player->velocity.y * Time.delta_time;
+
+  // distance to ground
+  float ground_height = GetGroundHeight(player->position, &map.model);
+
+  // stop falling when on the ground
+  if (player->position.y <= ground_height + player->max_step_height) {
+    player->position.y = ground_height;
+    player->velocity.y = 0.0f;
   }
 }
 
