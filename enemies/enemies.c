@@ -12,6 +12,7 @@ void init_enemy(EnemyList *enemy_list, EnemyType enemy_type) {
   enemy_list->enemy_count = ENEMY_MAX_COUNT;
 
   for (int x = 0; x < ENEMY_MAX_COUNT; x++) {
+     enemy_list->enemies[x].alive = true;
     enemy_list->enemies[x].position =
         (Vector3){GetRandomValue(-50, 50), 0.0f, GetRandomValue(-50, 50)};
   }
@@ -81,7 +82,7 @@ void draw_enemies(EnemyList *enemy_list) {
         break;
       }
     } else {
-       // enemy dead
+      // enemy dead
       DrawSphere(enemy_list->enemies[x].position, 0.5f, RED);
     }
 }

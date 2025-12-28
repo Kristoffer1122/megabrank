@@ -4,10 +4,11 @@
 #include <raylib.h>
 
 typedef struct {
-    Vector3 position;
-    float radius;
-    Color color;
-    float intensity;
+  long damage_per_second;
+  Vector3 position;
+  float radius;
+  Color color;
+  float intensity;
 } Aura;
 
 extern Aura aura;
