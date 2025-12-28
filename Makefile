@@ -1,4 +1,4 @@
-src = $(wildcard *.c */*.c)
+src = $(wildcard *.c */*.c */*/*.c */*/*/*.c)
 
 LDFLAGS += -lraylib -lm
 

@@ -17,7 +17,7 @@ void init_player(Player *player) {
   player->jump_force = 5.0f;
   player->velocity = (Vector3){0.0f, 0.0f, 0.0f};
   player->is_moving = false;
-}
+};
 
 void update_player(Player *player, float camera_angle) {
 

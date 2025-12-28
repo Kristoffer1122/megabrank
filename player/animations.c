@@ -5,7 +5,7 @@
 
 Animation animation = {0};
 
-void LoadAnimation(Animation *anim) {
+void load_animation(Animation *anim) {
   if (anim == NULL) {
     TraceLog(LOG_ERROR, "LoadAnimation: anim is NULL");
     return;
@@ -48,7 +48,7 @@ void LoadAnimation(Animation *anim) {
   TraceLog(LOG_INFO, "Animation initialized successfully");
 }
 
-void UpdateAnimation(Animation *anim) {
+void update_animation(Animation *anim) {
   if (anim == NULL || anim->animations == NULL || anim->animationCount == 0)
     return;
 
@@ -74,7 +74,7 @@ void UpdateAnimation(Animation *anim) {
   }
 }
 
-void DrawAnimation(Animation *anim, Vector3 position, float direction,
+void draw_animation(Animation *anim, Vector3 position, float direction,
                    float scale, Color tint) {
   if (anim == NULL || anim->model.meshCount == 0)
     return;
@@ -83,7 +83,7 @@ void DrawAnimation(Animation *anim, Vector3 position, float direction,
               direction * RAD2DEG, (Vector3){scale, scale, scale}, tint);
 }
 
-void UnloadAnimation(Animation *anim) {
+void unload_animation(Animation *anim) {
   if (anim == NULL)
     return;
 

@@ -14,7 +14,11 @@ void init_map(Map *map) {
   getcwd(cwd, sizeof(cwd));
 
   // Load model (this changes the working directory!)
-  map->model = LoadModel("assets/models/map.glb");
+  map->model = LoadModel("assets/village/Streetenvironment_V01.obj");
+
+  // map->texture = LoadTexture("assets/models/village/");
+  // SetMaterialTexture(&map->model.materials[0], MATERIAL_MAP_DIFFUSE, map->texture);
+
 }
 
 void draw_map(Map *map) {

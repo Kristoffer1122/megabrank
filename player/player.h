@@ -14,6 +14,7 @@ typedef struct {
   Model model;
   Texture2D texture;
   bool is_moving;
+  int attacks[];
 
 } Player;
 
@@ -22,6 +23,8 @@ extern Player player;
 void init_player(Player* player);
 
 void update_player(Player* player, float camera_angle);
+
+void update_attacks(Player* player);
 
 void draw_player(Player* player);
 

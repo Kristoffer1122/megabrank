@@ -25,10 +25,10 @@ typedef struct {
 
 extern Animation animation;
 
-void LoadAnimation(Animation *anim);
-void UpdateAnimation(Animation *anim);
-void DrawAnimation(Animation *anim, Vector3 position, float direction, float scale, Color tint);
-void UnloadAnimation(Animation *anim);
+void load_animation(Animation *anim);
+void update_animation(Animation *anim);
+void draw_animation(Animation *anim, Vector3 position, float direction, float scale, Color tint);
+void unload_animation(Animation *anim);
 void SetAnimationSpeed(Animation *anim, float speed);
 void PlayAnimation(Animation *anim, int animIndex);
 
