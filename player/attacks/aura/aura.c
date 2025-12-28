@@ -26,7 +26,7 @@ void aura_attack() {
         if (length > 0.1f) {
           Vector3 normalized_direction = Vector3Scale(direction, 1.0f / length);
 
-          float speed = enemy.speed;
+          float speed = enemy_list.enemies[i].speed;
 
           // move enemy towards player
           enemy_list.enemies[i].position = Vector3Add(
