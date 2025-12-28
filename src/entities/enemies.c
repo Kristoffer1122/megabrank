@@ -4,15 +4,13 @@
 #include <raymath.h>
 #include <stdio.h>
 
-// global enemy list
-int enemy_count = sizeof(enemy_list.enemies) / sizeof(enemy_list.enemies[0]);
-
 void init_enemy(EnemyList *enemy_list, EnemyType enemy_type) {
 
   enemy_list->enemy_count = ENEMY_MAX_COUNT;
 
   for (int x = 0; x < ENEMY_MAX_COUNT; x++) {
-     enemy_list->enemies[x].alive = true;
+    enemy_list->enemies[x].alive = true;
+    enemy_list->enemies[x].speed = 2.0f;
     enemy_list->enemies[x].position =
         (Vector3){GetRandomValue(-50, 50), 0.0f, GetRandomValue(-50, 50)};
   }
@@ -52,19 +50,25 @@ void init_enemy(EnemyList *enemy_list, EnemyType enemy_type) {
 }
 
 void update_enemies(EnemyList *enemy_list, Vector3 target) {
-  // NOTE: change this later
-  for (int x = 0; x < enemy_count; x++) {
-    Vector3 direction =
-        Vector3Subtract(target, enemy_list->enemies[x].position);
-    float length = Vector3Length(direction);
-    if (length > 0.1f) {
-      Vector3 normalized_direction = Vector3Scale(direction, 1.0f / length);
-      enemy_list->enemies[x].position = Vector3Add(
-          enemy_list->enemies[x].position,
-          Vector3Scale(normalized_direction,
-                       enemy_list->enemies[x].speed * Time.delta_time));
-    }
-  }
+  for (int i = 0; i < enemy_list->enemy_count; i++)
+    if (enemy_list->enemies[i].alive == true)
+      // make enemy move towards player
+      if (Vector3Distance(target, enemy_list->enemies[i].position) > 0.0f) {
+        Vector3 direction =
+            Vector3Subtract(target, enemy_list->enemies[i].position);
+        float length = Vector3Length(direction);
+
+        if (length > 0.1f) {
+          Vector3 normalized_direction = Vector3Scale(direction, 1.0f / length);
+
+          float speed = enemy_list->enemies[i].speed;
+
+          // move enemy towards player
+          enemy_list->enemies[i].position = Vector3Add(
+              enemy_list->enemies[i].position,
+              Vector3Scale(normalized_direction, speed * Time.delta_time));
+        }
+      }
 }
 
 void draw_enemies(EnemyList *enemy_list) {

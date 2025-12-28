@@ -17,12 +17,12 @@ Aura aura = {
     .position = {0.0f},
     .radius = 5.0f,
     .color = BLUE,
-    .intensity = 1.0f
+    .intensity = 0.2f
 };
 
 int main() {
 
-  InitWindow(1200, 800, "MEGABRANK");
+  InitWindow(1680, 960, "MEGABRANK");
 
   init_map(&map);
 
