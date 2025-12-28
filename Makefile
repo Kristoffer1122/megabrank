@@ -1,4 +1,4 @@
-src = $(wildcard *.c */*.c */*/*.c */*/*/*.c)
+src = $(shell find . -name '*.c' ! -path './bin/*')
 
 LDFLAGS += -lraylib -lm
 
