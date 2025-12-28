@@ -4,16 +4,16 @@
 #include <raylib.h>
 
 typedef struct {
+  bool is_moving;
   int health;
-  Vector3 position;
+  float max_step_height;
+  float jump_force;
   float speed;
   float direction;
   Vector3 velocity;
-  float jump_force;
-  float max_step_height;
+  Vector3 position;
   Model model;
   Texture2D texture;
-  bool is_moving;
   int attacks[];
 
 } Player;

@@ -10,11 +10,11 @@
 
 void init_player(Player *player) {
   player->health = 100;
-  player->position = (Vector3){0.0f, 0.0f, 0.0f};
   player->speed = 5.0f;
   player->direction = 0.0f;
   player->max_step_height = 0.001f;
   player->jump_force = 5.0f;
+  player->position = (Vector3){0.0f, 0.0f, 0.0f};
   player->velocity = (Vector3){0.0f, 0.0f, 0.0f};
   player->is_moving = false;
 };

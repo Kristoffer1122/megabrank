@@ -3,6 +3,7 @@
 #include "game/map.h"
 #include "systems/animations.h"
 #include "attacks/attack_system.h"
+#include "attacks/aura.h"
 #include "entities/player.h"
 #include "core/time.h"
 #include <raylib.h>
@@ -27,6 +28,7 @@ int main() {
   init_map(&map);
 
   init_player(&player);
+  init_aura(&aura);
   load_animation(&animation);
 
   init_enemy(&enemy_list, ENEMY_TYPE_ZOMBIE);
