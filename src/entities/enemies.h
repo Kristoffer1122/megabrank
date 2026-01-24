@@ -22,6 +22,7 @@ typedef struct {
   int attack;
   int defense;
   Vector3 position;
+  Vector3 health_bar_offset;
 
 } Enemy;
 
