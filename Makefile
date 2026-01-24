@@ -4,7 +4,7 @@ INCLUDES = -Isrc/
 LDFLAGS += -lraylib -lm
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -O3
 
 build:
 	mkdir -p bin
