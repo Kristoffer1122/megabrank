@@ -41,7 +41,7 @@ int main() {
   SetTargetFPS(60);
 
   while (!WindowShouldClose()) {
-    Time.delta_time = GetFrameTime();
+   Time.delta_time = GetFrameTime();
     Time.game_time += Time.delta_time;
 
     update_player(&player, game_camera.angle_horizontal);
