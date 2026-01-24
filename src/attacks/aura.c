@@ -62,6 +62,7 @@ void draw_aura(Aura *aura) {
 
   float angle = (2 * PI) / AURA_RING_COUNT;
 
+  // aura particles always face camera
   Vector3 aura_position = {player.position.x + (cosf(angle) * aura->radius),
                            player.position.y + 1.0f,
                            player.position.z + (sinf(angle) * aura->radius)};
