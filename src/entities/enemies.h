@@ -19,6 +19,7 @@ typedef struct {
   char name[50];
   float speed;
   int health;
+  int exp_reward;
   int attack;
   int defense;
   Vector3 position;
