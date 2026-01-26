@@ -7,6 +7,11 @@
 typedef struct {
   bool is_moving;
   int health;
+
+  int experience;
+  int level;
+  int xp_to_next_level;
+
   float max_step_height;
   float jump_force;
   float speed;
@@ -19,6 +24,17 @@ typedef struct {
   int attacks[];
 
 } Player;
+
+// experience struct and funcs
+// NOTE: add experience multiplier later
+
+// add exp to player
+void add_experience(Player *player, int xp);
+
+// level up the player, and make it harder to level up next time (1.5x)
+void level_up(Player *player);
+
+// start player funcs
 
 extern Player player;
 

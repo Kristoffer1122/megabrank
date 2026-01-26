@@ -10,6 +10,9 @@
 
 void init_player(Player *player) {
   player->health = 100;
+  player->experience = 0;
+  player->level = 1;
+  player->xp_to_next_level = 100;
   player->speed = 5.0f;
   player->direction = 0.0f;
   player->max_step_height = 0.001f;
@@ -123,3 +126,21 @@ void draw_player(Player *player) {
 }
 
 void unload_player(Player *player) { UnloadModel(player->model); }
+
+// experience functions
+
+void add_experience(Player *player, int xp) {
+    player->experience += xp;
+
+      // check for level up
+      while (player->experience >= player->xp_to_next_level) {
+          level_up(player);
+      }
+}
+
+void level_up(Player *player ) {
+    player->level += 1;
+    player->experience = 0;
+    // Increase XP needed for next level
+    player->xp_to_next_level = (int)(player->xp_to_next_level * 1.5f); 
+}
