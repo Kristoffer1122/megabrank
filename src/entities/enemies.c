@@ -99,7 +99,7 @@ void draw_enemies(EnemyList *enemy_list) {
       }
 
        // makeshift healthbar
-       DrawCube(enemy_list->enemies[x].health_bar_offset, 1.5f, 0.4f, 0.001f, WHITE);
+       // DrawCube(enemy_list->enemies[x].health_bar_offset, 1.5f, 0.4f, 0.001f, WHITE);
 
        DrawCube(Vector3Add(enemy_list->enemies[x].position, 
                            (Vector3){enemy_list->enemies[x].health_bar_offset.x - 0.12f,
