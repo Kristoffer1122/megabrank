@@ -15,7 +15,7 @@ EnemyList enemy_list = {0};
 GameCamera game_camera = {0};
 
 Aura aura = {
-    .position = {0.0f},
+    .position = {0.0f, 0.0f, 0.0f},
     .radius = 5.0f,
     .color = BLUE,
     .intensity = 0.2f
