@@ -45,7 +45,6 @@ void aura_attack() {
         enemy_list.enemies[i].health -= 20 * Time.delta_time;
         if (enemy_list.enemies[i].health <= 0) {
           enemy_list.enemies[i].alive = false;
-          update_kill_count(&player, 1);
         }
       }
     } else {

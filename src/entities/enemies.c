@@ -1,6 +1,6 @@
-#include "enemies.h"
+#include "./enemies.h"
+#include "./player.h"
 #include "../core/time.h"
-#include "../game/camera.h"
 #include <raylib.h>
 #include <raymath.h>
 #include <stdio.h>
@@ -23,6 +23,7 @@ void init_enemy(EnemyList *enemy_list, EnemyType enemy_type) {
       enemy_list->enemies[x].health = 100;
       enemy_list->enemies[x].health_bar_offset = (Vector3){0.0f, 1.5f, 0.0f};
       enemy_list->enemies[x].attack = 10;
+      enemy_list->enemies[x].exp_reward = 10;
       enemy_list->enemies[x].defense = 5;
       snprintf(enemy_list->enemies[x].name, sizeof(enemy_list->enemies[x].name),
                "Zombie_%d", x);
@@ -34,6 +35,7 @@ void init_enemy(EnemyList *enemy_list, EnemyType enemy_type) {
       enemy_list->enemies[x].health = 80;
       enemy_list->enemies[x].health_bar_offset = (Vector3){0.0f, 1.5f, 0.0f};
       enemy_list->enemies[x].attack = 15;
+      enemy_list->enemies[x].exp_reward = 10;
       enemy_list->enemies[x].defense = 3;
       snprintf(enemy_list->enemies[x].name, sizeof(enemy_list->enemies[x].name),
                "Alien_%d", x);
@@ -45,6 +47,7 @@ void init_enemy(EnemyList *enemy_list, EnemyType enemy_type) {
       enemy_list->enemies[x].health = 120;
       enemy_list->enemies[x].health_bar_offset = (Vector3){0.0f, 1.5f, 0.0f};
       enemy_list->enemies[x].attack = 8;
+      enemy_list->enemies[x].exp_reward = 10;
       enemy_list->enemies[x].defense = 10;
       snprintf(enemy_list->enemies[x].name, sizeof(enemy_list->enemies[x].name),
                "Robot_%d", x);
@@ -115,6 +118,9 @@ void draw_enemies(EnemyList *enemy_list) {
 
 
     } else {
+       // increment player kill count
+       player.kill_count += 1;
+       add_experience(&player.experience, enemy_list->enemies[x].exp_reward);
       // enemy dead
       DrawSphere(enemy_list->enemies[x].position, 0.5f, RED);
     }
