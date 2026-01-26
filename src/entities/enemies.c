@@ -120,7 +120,7 @@ void draw_enemies(EnemyList *enemy_list) {
     } else {
        // increment player kill count
        player.kill_count += 1;
-       add_experience(&player.experience, enemy_list->enemies[x].exp_reward);
+       add_experience(&player, enemy_list->enemies[x].exp_reward);
       // enemy dead
       DrawSphere(enemy_list->enemies[x].position, 0.5f, RED);
     }
