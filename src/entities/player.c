@@ -1,8 +1,8 @@
 #include "player.h"
-#include "../game/map.h"
-#include "../systems/physics.h"
 #include "../core/time.h"
+#include "../game/map.h"
 #include "../systems/animations.h"
+#include "../systems/physics.h"
 #include <raylib.h>
 #include <raymath.h>
 
@@ -17,6 +17,7 @@ void init_player(Player *player) {
   player->position = (Vector3){0.0f, 0.0f, 0.0f};
   player->velocity = (Vector3){0.0f, 0.0f, 0.0f};
   player->is_moving = false;
+  player->kill_count = 0;
 };
 
 void update_player(Player *player, float camera_angle) {
@@ -85,16 +86,15 @@ void update_player(Player *player, float camera_angle) {
   player->position.x += player->velocity.x * Time.delta_time;
 
   float min_movement_threshold = 0.1f;
-  float horizontal_speed =
-      sqrtf(player->velocity.x * player->velocity.x +
-            player->velocity.z * player->velocity.z);
+  float horizontal_speed = sqrtf(player->velocity.x * player->velocity.x +
+                                 player->velocity.z * player->velocity.z);
 
   player->is_moving = (horizontal_speed > min_movement_threshold);
 
   if (player->is_moving) {
-     PlayAnimation(&animation, ANIM_WALK);
+    PlayAnimation(&animation, ANIM_WALK);
   } else {
-     PlayAnimation(&animation, ANIM_IDLE);
+    PlayAnimation(&animation, ANIM_IDLE);
   }
 
   // GRAVITY and ground collision
@@ -111,6 +111,10 @@ void update_player(Player *player, float camera_angle) {
     player->position.y = ground_height;
     player->velocity.y = 0.0f;
   }
+}
+
+void update_kill_count(Player *player, int amount) {
+  player->kill_count += amount;
 }
 
 void draw_player(Player *player) {
