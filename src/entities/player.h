@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include <raylib.h>
+#include "./enemies.h"
 
 typedef struct {
   bool is_moving;
@@ -14,6 +15,7 @@ typedef struct {
   Vector3 position;
   Model model;
   Texture2D texture;
+  int kill_count;
   int attacks[];
 
 } Player;
@@ -25,6 +27,8 @@ void init_player(Player* player);
 void update_player(Player* player, float camera_angle);
 
 void update_attacks(Player* player);
+
+void update_kill_count(Player* player, int amount);
 
 void draw_player(Player* player);
 
