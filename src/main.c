@@ -1,11 +1,11 @@
-#include "game/camera.h"
-#include "entities/enemies.h"
-#include "game/map.h"
-#include "systems/animations.h"
 #include "attacks/attack_system.h"
 #include "attacks/aura.h"
-#include "entities/player.h"
 #include "core/time.h"
+#include "entities/enemies.h"
+#include "entities/player.h"
+#include "game/camera.h"
+#include "game/map.h"
+#include "systems/animations.h"
 #include <raylib.h>
 #include <raymath.h>
 
@@ -14,12 +14,10 @@ Player player = {0};
 EnemyList enemy_list = {0};
 GameCamera game_camera = {0};
 
-Aura aura = {
-    .position = {0.0f, 0.0f, 0.0f},
-    .radius = 5.0f,
-    .color = BLUE,
-    .intensity = 0.2f
-};
+Aura aura = {.position = {0.0f, 0.0f, 0.0f},
+             .radius = 5.0f,
+             .color = BLUE,
+             .intensity = 0.2f};
 
 int main() {
 
@@ -41,7 +39,7 @@ int main() {
   SetTargetFPS(60);
 
   while (!WindowShouldClose()) {
-   Time.delta_time = GetFrameTime();
+    Time.delta_time = GetFrameTime();
     Time.game_time += Time.delta_time;
 
     update_player(&player, game_camera.angle_horizontal);
@@ -65,6 +63,10 @@ int main() {
     // BLACK);
     DrawGrid(100, 10.0f);
     EndMode3D();
+
+    DrawText("Use WASD to move, SPACE to jump", 10, 10, 20, DARKGRAY);
+    DrawText("Enemies killed: ", 10, 40, 20, DARKGRAY);
+    DrawText(TextFormat("%d", player.kill_count), 150, 40, 20, DARKGRAY);
 
     EndDrawing();
   }
