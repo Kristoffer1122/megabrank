@@ -65,8 +65,7 @@ int main() {
     EndMode3D();
 
     DrawText("Use WASD to move, SPACE to jump", 10, 10, 20, DARKGRAY);
-    DrawText("Enemies killed: ", 10, 40, 20, DARKGRAY);
-    DrawText(TextFormat("%d", player.kill_count), 150, 40, 20, DARKGRAY);
+    DrawText(TextFormat("Enemies killed:💀 %d", player.kill_count), 10, 40, 20, DARKGRAY);
 
     EndDrawing();
   }
