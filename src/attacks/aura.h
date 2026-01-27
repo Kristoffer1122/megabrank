@@ -23,4 +23,6 @@ void aura_attack();
 
 void draw_aura(Aura *aura);
 
+void unload_aura(Aura *aura);
+
 #endif
