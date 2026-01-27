@@ -34,7 +34,7 @@ void init_aura(Aura *aura) {
 void aura_attack() {
   // for enemies within aura radius
   for (int i = 0; i < ENEMY_MAX_COUNT; i++) {
-    if (enemy_list.enemies[i].alive == true) {
+    if (enemy_list.enemies[i].alive) {
       float distance =
           Vector2Distance((Vector2){player.position.x, player.position.z},
                           (Vector2){enemy_list.enemies[i].position.x,
@@ -43,8 +43,15 @@ void aura_attack() {
       if (distance <= aura.radius) {
         // Apply damage or effect to enemy
         enemy_list.enemies[i].health -= 20 * Time.delta_time;
-        if (enemy_list.enemies[i].health <= 0) {
+
+        if ((enemy_list.enemies[i].alive) && (enemy_list.enemies[i].health <= 0)) {
           enemy_list.enemies[i].alive = false;
+
+          // increment player kill count
+          update_kill_count(&player, 1);
+          // add exp
+          add_experience(&player, enemy_list.enemies[i].exp_reward);
+
         }
       }
     } else {

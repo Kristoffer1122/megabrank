@@ -1,9 +1,10 @@
-#include "./enemies.h"
-#include "./player.h"
-#include "../core/time.h"
 #include <raylib.h>
 #include <raymath.h>
 #include <stdio.h>
+
+// Enemy and time
+#include "./enemies.h"
+#include "../core/time.h"
 
 void init_enemy(EnemyList *enemy_list, EnemyType enemy_type) {
 
@@ -57,8 +58,8 @@ void init_enemy(EnemyList *enemy_list, EnemyType enemy_type) {
 }
 
 void update_enemies(EnemyList *enemy_list, Vector3 target) {
-  for (int i = 0; i < enemy_list->enemy_count; i++)
-    if (enemy_list->enemies[i].alive == true)
+  for (int i = 0; i < enemy_list->enemy_count; i++) {
+    if (enemy_list->enemies[i].alive) {
 
       // make enemy move towards player
       // NOTE: we can later add pathfinding here
@@ -84,11 +85,13 @@ void update_enemies(EnemyList *enemy_list, Vector3 target) {
               Vector3Scale(normalized_direction, speed * Time.delta_time));
         }
       }
+    }
+  }
 }
 
 void draw_enemies(EnemyList *enemy_list) {
   for (int x = 0; x < enemy_list->enemy_count; x++)
-    if (enemy_list->enemies[x].alive == true) {
+    if (enemy_list->enemies[x].alive) {
       switch (enemy_list->enemies[x].enemy_type) {
       case ENEMY_TYPE_ZOMBIE:
         DrawSphere(enemy_list->enemies[x].position, 0.5f, GREEN);
@@ -105,7 +108,7 @@ void draw_enemies(EnemyList *enemy_list) {
        // DrawCube(enemy_list->enemies[x].health_bar_offset, 1.5f, 0.4f, 0.001f, WHITE);
 
        DrawCube(Vector3Add(enemy_list->enemies[x].position, 
-                           (Vector3){enemy_list->enemies[x].health_bar_offset.x - 0.12f,
+                           (Vector3){enemy_list->enemies[x].health_bar_offset.x- 0.12f,
                            enemy_list->enemies[x].health_bar_offset.y,
                            enemy_list->enemies[x].health_bar_offset.y + 0.01f}),
                            0.012f * enemy_list->enemies[x].health, 0.3f, 0.001f, RED);
@@ -118,9 +121,6 @@ void draw_enemies(EnemyList *enemy_list) {
 
 
     } else {
-       // increment player kill count
-       player.kill_count += 1;
-       add_experience(&player, enemy_list->enemies[x].exp_reward);
       // enemy dead
       DrawSphere(enemy_list->enemies[x].position, 0.5f, RED);
     }
