@@ -44,7 +44,7 @@ void aura_attack() {
         // Apply damage or effect to enemy
         enemy_list.enemies[i].health -= 20 * Time.delta_time;
 
-        if ((enemy_list.enemies[i].alive) && (enemy_list.enemies[i].health <= 0)) {
+        if (enemy_list.enemies[i].health <= 0) {
           enemy_list.enemies[i].alive = false;
 
           // increment player kill count
@@ -54,9 +54,7 @@ void aura_attack() {
 
         }
       }
-    } else {
-      continue;
-    }
+    } 
   }
   draw_aura(&aura);
 }
