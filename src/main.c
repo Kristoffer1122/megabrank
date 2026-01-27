@@ -76,6 +76,7 @@ int main() {
 
   unload_animation(&animation);
   unload_player(&player);
+  unload_aura(&aura);
   // unload_enemies(&enemy_list);
   unload_map(&map);
   CloseWindow();
