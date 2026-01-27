@@ -7,7 +7,6 @@
 #include "../core/time.h"
 
 void init_enemy(EnemyList *enemy_list, EnemyType enemy_type) {
-
   enemy_list->enemy_count = ENEMY_MAX_COUNT;
 
   for (int x = 0; x < ENEMY_MAX_COUNT; x++) {
@@ -15,46 +14,36 @@ void init_enemy(EnemyList *enemy_list, EnemyType enemy_type) {
     enemy_list->enemies[x].speed = 2.0f;
     enemy_list->enemies[x].position =
         (Vector3){GetRandomValue(-50, 50), 0.0f, GetRandomValue(-50, 50)};
-  }
+    enemy_list->enemies[x].enemy_type = enemy_type;
+    enemy_list->enemies[x].health_bar_offset = (Vector3){0.0f, 1.5f, 0.0f};
 
-  switch (enemy_type) {
-  case ENEMY_TYPE_ZOMBIE:
-    for (int x = 0; x < ENEMY_MAX_COUNT; x++) {
-      enemy_list->enemies[x].enemy_type = ENEMY_TYPE_ZOMBIE;
-      enemy_list->enemies[x].health = 100;
-      enemy_list->enemies[x].health_bar_offset = (Vector3){0.0f, 1.5f, 0.0f};
-      enemy_list->enemies[x].attack = 10;
-      enemy_list->enemies[x].exp_reward = 10;
-      enemy_list->enemies[x].defense = 5;
-      snprintf(enemy_list->enemies[x].name, sizeof(enemy_list->enemies[x].name),
-               "Zombie_%d", x);
-    }
-    break;
-  case ENEMY_TYPE_ALIEN:
-    for (int x = 0; x < ENEMY_MAX_COUNT; x++) {
-      enemy_list->enemies[x].enemy_type = ENEMY_TYPE_ALIEN;
-      enemy_list->enemies[x].health = 80;
-      enemy_list->enemies[x].health_bar_offset = (Vector3){0.0f, 1.5f, 0.0f};
-      enemy_list->enemies[x].attack = 15;
-      enemy_list->enemies[x].exp_reward = 10;
-      enemy_list->enemies[x].defense = 3;
-      snprintf(enemy_list->enemies[x].name, sizeof(enemy_list->enemies[x].name),
-               "Alien_%d", x);
-    }
-    break;
-  case ENEMY_TYPE_ROBOT:
-    for (int x = 0; x < ENEMY_MAX_COUNT; x++) {
-      enemy_list->enemies[x].enemy_type = ENEMY_TYPE_ROBOT;
-      enemy_list->enemies[x].health = 120;
-      enemy_list->enemies[x].health_bar_offset = (Vector3){0.0f, 1.5f, 0.0f};
-      enemy_list->enemies[x].attack = 8;
-      enemy_list->enemies[x].exp_reward = 10;
-      enemy_list->enemies[x].defense = 10;
-      snprintf(enemy_list->enemies[x].name, sizeof(enemy_list->enemies[x].name),
-               "Robot_%d", x);
-    }
-    break;
-  }
+    switch (enemy_type) {
+       case ENEMY_TYPE_ZOMBIE:
+         enemy_list->enemies[x].health = 100;
+         enemy_list->enemies[x].attack = 10;
+         enemy_list->enemies[x].exp_reward = 10;
+         enemy_list->enemies[x].defense = 5;
+         snprintf(enemy_list->enemies[x].name, sizeof(enemy_list->enemies[x].name),
+                  "Zombie_%d", x);
+         break;
+       case ENEMY_TYPE_ALIEN:
+         enemy_list->enemies[x].health = 80;
+         enemy_list->enemies[x].attack = 15;
+         enemy_list->enemies[x].exp_reward = 10;
+         enemy_list->enemies[x].defense = 3;
+         snprintf(enemy_list->enemies[x].name, sizeof(enemy_list->enemies[x].name),
+                  "Alien_%d", x);
+         break;
+       case ENEMY_TYPE_ROBOT:
+         enemy_list->enemies[x].health = 120;
+         enemy_list->enemies[x].attack = 8;
+         enemy_list->enemies[x].exp_reward = 10;
+         enemy_list->enemies[x].defense = 10;
+         snprintf(enemy_list->enemies[x].name, sizeof(enemy_list->enemies[x].name),
+                  "Robot_%d", x);
+         break;
+       }
+     }
 }
 
 void update_enemies(EnemyList *enemy_list, Vector3 target) {
@@ -126,8 +115,8 @@ void draw_enemies(EnemyList *enemy_list) {
     }
 }
 
-// void unload_enemies(EnemyList *enemy_list) {
-//    for (int x = 0; x < enemy_count; x++) {
-//      // Currently nothing to unload, but placeholder for future resources
-//    }
-// }
+void unload_enemies(EnemyList *enemy_list) {
+   for (int x = 0; x < enemy_list->enemy_count; x++) {
+     // Currently nothing to unload, but placeholder for future resources
+   }
+}
