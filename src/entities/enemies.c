@@ -6,6 +6,9 @@
 #include "./enemies.h"
 #include "../core/time.h"
 
+// player
+#include "./player.h"
+
 void init_enemy(EnemyList *enemy_list, EnemyType enemy_type) {
   enemy_list->enemy_count = ENEMY_MAX_COUNT;
 
@@ -72,6 +75,11 @@ void update_enemies(EnemyList *enemy_list, Vector3 target) {
           enemy_list->enemies[i].position = Vector3Add(
               enemy_list->enemies[i].position,
               Vector3Scale(normalized_direction, speed * Time.delta_time));
+        } else {
+            // Enemy reached the target
+            player.health -= enemy_list->enemies[i].attack * Time.delta_time;
+            if (player.health < 0)
+              player.health = 0;
         }
       }
     }
