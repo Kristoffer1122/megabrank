@@ -67,6 +67,9 @@ int main() {
     DrawText("Use WASD to move, SPACE to jump", 10, 10, 20, DARKGRAY);
     DrawText(TextFormat("Enemies killed:💀 %d", player.kill_count), 10, 40, 20, DARKGRAY);
 
+    // draw player health
+    DrawText(TextFormat("Health: %d", player.health), 10, 100, 20, DARKGRAY);
+
     DrawText(TextFormat("Level: %d, EXP: %d", player.level, player.experience), 10, 70, 20, DARKGRAY);
 
 
