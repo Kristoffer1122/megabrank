@@ -3,7 +3,7 @@
 
 #include "../attacks/aura.h"
 
-typedef void (*attack_function)(void*);
+typedef void (*attack_function)(void);
 
 extern attack_function attacks[];
 extern int attack_count;

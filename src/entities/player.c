@@ -7,6 +7,8 @@
 #include <raymath.h>
 
 #define GRAVITY 9.81f
+#define FALL_DEATH_THRESHOLD -50.0f
+#define SPAWN_HEIGHT 5.0f
 
 void init_player(Player *player) {
   player->health = 100;
@@ -24,6 +26,11 @@ void init_player(Player *player) {
 };
 
 void update_player(Player *player, float camera_angle) {
+
+  // don't process input if player is dead
+  if (player->health <= 0) {
+    return;
+  }
 
   Vector2 input = {0};
 
@@ -65,7 +72,6 @@ void update_player(Player *player, float camera_angle) {
 
     // move player
     if (CanMoveTo(player->position, target_position, &map.model)) {
-      float move_speed = player->speed * Time.delta_time;
       player->position.x += rotated_x * move_speed;
       player->position.z += rotated_z * move_speed;
     }
@@ -85,26 +91,20 @@ void update_player(Player *player, float camera_angle) {
     player->direction += angle_diff * rotation_speed * Time.delta_time;
   }
 
+  // apply gravity to velocity
+  player->velocity.y -= GRAVITY * Time.delta_time;
+
+  // update vertical position from velocity
   player->position.y += player->velocity.y * Time.delta_time;
-  player->position.x += player->velocity.x * Time.delta_time;
 
-  float min_movement_threshold = 0.1f;
-  float horizontal_speed = sqrtf(player->velocity.x * player->velocity.x +
-                                 player->velocity.z * player->velocity.z);
-
-  player->is_moving = (horizontal_speed > min_movement_threshold);
+  // detect if player is moving based on input (velocity is not used for horizontal movement)
+  player->is_moving = (input.x != 0.0f || input.y != 0.0f);
 
   if (player->is_moving) {
     PlayAnimation(&animation, ANIM_WALK);
   } else {
     PlayAnimation(&animation, ANIM_IDLE);
   }
-
-  // GRAVITY and ground collision
-  player->velocity.y -= GRAVITY * Time.delta_time;
-
-  // gravity on player
-  player->position.y += player->velocity.y * Time.delta_time;
 
   // distance to ground
   float ground_height = GetGroundHeight(player->position, &map.model);
@@ -114,10 +114,24 @@ void update_player(Player *player, float camera_angle) {
     player->position.y = ground_height;
     player->velocity.y = 0.0f;
   }
+
+  // respawn if fallen off the map
+  if (player->position.y < FALL_DEATH_THRESHOLD) {
+    player->position = (Vector3){0.0f, SPAWN_HEIGHT, 0.0f};
+    player->velocity = (Vector3){0.0f, 0.0f, 0.0f};
+  }
 }
 
 void update_kill_count(Player *player, int amount) {
   player->kill_count += amount;
+}
+
+void respawn_player(Player *player) {
+  player->health = 100;
+  player->position = (Vector3){0.0f, SPAWN_HEIGHT, 0.0f};
+  player->velocity = (Vector3){0.0f, 0.0f, 0.0f};
+  player->direction = 0.0f;
+  player->is_moving = false;
 }
 
 void draw_player(Player *player) {
@@ -140,7 +154,8 @@ void add_experience(Player *player, int xp) {
 
 void level_up(Player *player ) {
     player->level += 1;
-    player->experience = 0;
+    // carry over excess experience to next level
+    player->experience -= player->xp_to_next_level;
     // Increase XP needed for next level
     player->xp_to_next_level = (int)(player->xp_to_next_level * 1.5f); 
 }

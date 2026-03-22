@@ -19,6 +19,7 @@ void init_enemy(EnemyList *enemy_list, EnemyType enemy_type) {
         (Vector3){GetRandomValue(-50, 50), 0.0f, GetRandomValue(-50, 50)};
     enemy_list->enemies[x].enemy_type = enemy_type;
     enemy_list->enemies[x].health_bar_offset = (Vector3){0.0f, 1.5f, 0.0f};
+    enemy_list->enemies[x].damage_accumulator = 0.0f;
 
     switch (enemy_type) {
        case ENEMY_TYPE_ZOMBIE:
@@ -76,8 +77,13 @@ void update_enemies(EnemyList *enemy_list, Vector3 target) {
               enemy_list->enemies[i].position,
               Vector3Scale(normalized_direction, speed * Time.delta_time));
         } else {
-            // Enemy reached the target
-            player.health -= enemy_list->enemies[i].attack * Time.delta_time;
+            // Enemy reached the target - accumulate fractional damage
+            enemy_list->enemies[i].damage_accumulator += enemy_list->enemies[i].attack * Time.delta_time;
+            if (enemy_list->enemies[i].damage_accumulator >= 1.0f) {
+              int damage = (int)enemy_list->enemies[i].damage_accumulator;
+              player.health -= damage;
+              enemy_list->enemies[i].damage_accumulator -= damage;
+            }
             if (player.health < 0)
               player.health = 0;
         }
@@ -107,13 +113,13 @@ void draw_enemies(EnemyList *enemy_list) {
        DrawCube(Vector3Add(enemy_list->enemies[x].position, 
                            (Vector3){enemy_list->enemies[x].health_bar_offset.x- 0.12f,
                            enemy_list->enemies[x].health_bar_offset.y,
-                           enemy_list->enemies[x].health_bar_offset.y + 0.01f}),
+                           enemy_list->enemies[x].health_bar_offset.z + 0.01f}),
                            0.012f * enemy_list->enemies[x].health, 0.3f, 0.001f, RED);
 
        DrawCube(Vector3Add(enemy_list->enemies[x].position, 
                            (Vector3){enemy_list->enemies[x].health_bar_offset.x - 0.12f,
                            enemy_list->enemies[x].health_bar_offset.y,
-                           enemy_list->enemies[x].health_bar_offset.y - 0.01f}),
+                           enemy_list->enemies[x].health_bar_offset.z - 0.01f}),
                            1.2f, 0.3f, 0.001f, RAYWHITE);
 
 
