@@ -106,9 +106,12 @@ void PlayAnimation(Animation *anim, int animIndex) {
     return;
 
   if (animIndex >= 0 && animIndex < anim->animationCount) {
-    anim->currentAnimation = animIndex;
-    anim->currentFrame = 0;
-    anim->frameTime = 0.0f;
+    // only reset if switching to a different animation
+    if (anim->currentAnimation != animIndex) {
+      anim->currentAnimation = animIndex;
+      anim->currentFrame = 0;
+      anim->frameTime = 0.0f;
+    }
     anim->isPaused = false;
   }
 }

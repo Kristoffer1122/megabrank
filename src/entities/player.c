@@ -85,26 +85,20 @@ void update_player(Player *player, float camera_angle) {
     player->direction += angle_diff * rotation_speed * Time.delta_time;
   }
 
+  // apply gravity to velocity
+  player->velocity.y -= GRAVITY * Time.delta_time;
+
+  // update vertical position from velocity
   player->position.y += player->velocity.y * Time.delta_time;
-  player->position.x += player->velocity.x * Time.delta_time;
 
-  float min_movement_threshold = 0.1f;
-  float horizontal_speed = sqrtf(player->velocity.x * player->velocity.x +
-                                 player->velocity.z * player->velocity.z);
-
-  player->is_moving = (horizontal_speed > min_movement_threshold);
+  // detect if player is moving based on input (velocity is not used for horizontal movement)
+  player->is_moving = (input.x != 0.0f || input.y != 0.0f);
 
   if (player->is_moving) {
     PlayAnimation(&animation, ANIM_WALK);
   } else {
     PlayAnimation(&animation, ANIM_IDLE);
   }
-
-  // GRAVITY and ground collision
-  player->velocity.y -= GRAVITY * Time.delta_time;
-
-  // gravity on player
-  player->position.y += player->velocity.y * Time.delta_time;
 
   // distance to ground
   float ground_height = GetGroundHeight(player->position, &map.model);
