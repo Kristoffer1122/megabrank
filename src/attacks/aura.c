@@ -88,6 +88,12 @@ void unload_aura(Aura *aura) {
   if (aura == NULL)
     return;
 
-  UnloadTexture(aura->texture);
-  free(aura->frames);
+  // unload all frame textures
+  if (aura->frames != NULL) {
+    for (int i = 0; i < aura->frame_count; i++) {
+      UnloadTexture(aura->frames[i]);
+    }
+    free(aura->frames);
+    aura->frames = NULL;
+  }
 }
