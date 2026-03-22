@@ -134,7 +134,8 @@ void add_experience(Player *player, int xp) {
 
 void level_up(Player *player ) {
     player->level += 1;
-    player->experience = 0;
+    // carry over excess experience to next level
+    player->experience -= player->xp_to_next_level;
     // Increase XP needed for next level
     player->xp_to_next_level = (int)(player->xp_to_next_level * 1.5f); 
 }
