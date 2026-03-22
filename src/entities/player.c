@@ -112,6 +112,12 @@ void update_player(Player *player, float camera_angle) {
     player->position.y = ground_height;
     player->velocity.y = 0.0f;
   }
+
+  // respawn if fallen off the map
+  if (player->position.y < -50.0f) {
+    player->position = (Vector3){0.0f, 5.0f, 0.0f};
+    player->velocity = (Vector3){0.0f, 0.0f, 0.0f};
+  }
 }
 
 void update_kill_count(Player *player, int amount) {

@@ -28,8 +28,6 @@ typedef struct {
 
 } Enemy;
 
-extern Enemy enemy;
-
 typedef struct {
   Enemy enemies[100];
   int enemy_count;
