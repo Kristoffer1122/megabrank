@@ -44,7 +44,9 @@ void update_player(Player* player, float camera_angle);
 
 void update_attacks(Player* player);
 
-void update_kill_count(Player* player, int amount);
+void update_kill_count(Player *player, int amount);
+
+void respawn_player(Player *player);
 
 void draw_player(Player* player);
 

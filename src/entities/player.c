@@ -25,6 +25,11 @@ void init_player(Player *player) {
 
 void update_player(Player *player, float camera_angle) {
 
+  // don't process input if player is dead
+  if (player->health <= 0) {
+    return;
+  }
+
   Vector2 input = {0};
 
   if (IsKeyDown(KEY_W))
@@ -65,7 +70,6 @@ void update_player(Player *player, float camera_angle) {
 
     // move player
     if (CanMoveTo(player->position, target_position, &map.model)) {
-      float move_speed = player->speed * Time.delta_time;
       player->position.x += rotated_x * move_speed;
       player->position.z += rotated_z * move_speed;
     }
@@ -112,6 +116,14 @@ void update_player(Player *player, float camera_angle) {
 
 void update_kill_count(Player *player, int amount) {
   player->kill_count += amount;
+}
+
+void respawn_player(Player *player) {
+  player->health = 100;
+  player->position = (Vector3){0.0f, 0.0f, 0.0f};
+  player->velocity = (Vector3){0.0f, 0.0f, 0.0f};
+  player->direction = 0.0f;
+  player->is_moving = false;
 }
 
 void draw_player(Player *player) {

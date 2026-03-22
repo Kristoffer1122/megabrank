@@ -72,8 +72,17 @@ int main() {
 
     DrawText(TextFormat("Level: %d, EXP: %d", player.level, player.experience), 10, 70, 20, DARKGRAY);
 
+    // show death screen and respawn prompt
+    if (player.health <= 0) {
+      DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), (Color){0, 0, 0, 150});
+      DrawText("YOU DIED", GetScreenWidth()/2 - 100, GetScreenHeight()/2 - 40, 40, RED);
+      DrawText("Press R to respawn", GetScreenWidth()/2 - 110, GetScreenHeight()/2 + 10, 20, WHITE);
 
-
+      if (IsKeyPressed(KEY_R)) {
+        respawn_player(&player);
+        init_enemy(&enemy_list, ENEMY_TYPE_ZOMBIE);
+      }
+    }
     EndDrawing();
   }
 
