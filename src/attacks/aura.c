@@ -56,6 +56,17 @@ void aura_attack() {
       }
     } 
   }
+
+  // advance aura animation frame
+  aura.frame_timer -= Time.delta_time;
+  if (aura.frame_timer <= 0.0f) {
+    aura.frame_timer = 0.1f;
+    aura.current_frame++;
+    if (aura.current_frame >= aura.frame_count) {
+      aura.current_frame = 0;
+    }
+  }
+
   draw_aura(&aura);
 }
 

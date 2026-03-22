@@ -67,8 +67,20 @@ int main() {
     DrawText("Use WASD to move, SPACE to jump", 10, 10, 20, DARKGRAY);
     DrawText(TextFormat("Enemies killed:💀 %d", player.kill_count), 10, 40, 20, DARKGRAY);
 
-    // draw player health
-    DrawText(TextFormat("Health: %d", player.health), 10, 100, 20, DARKGRAY);
+    // draw player health bar
+    int bar_x = 10;
+    int bar_y = 100;
+    int bar_width = 200;
+    int bar_height = 20;
+    int health_width = (int)((float)player.health / 100.0f * bar_width);
+    if (health_width < 0) health_width = 0;
+    if (health_width > bar_width) health_width = bar_width;
+
+    DrawRectangle(bar_x, bar_y, bar_width, bar_height, DARKGRAY);
+    Color health_color = (player.health > 50) ? GREEN : (player.health > 25) ? YELLOW : RED;
+    DrawRectangle(bar_x, bar_y, health_width, bar_height, health_color);
+    DrawRectangleLines(bar_x, bar_y, bar_width, bar_height, BLACK);
+    DrawText(TextFormat("HP: %d/100", player.health), bar_x + 5, bar_y + 2, 16, WHITE);
 
     DrawText(TextFormat("Level: %d, EXP: %d", player.level, player.experience), 10, 70, 20, DARKGRAY);
 
