@@ -7,6 +7,8 @@
 #include <raymath.h>
 
 #define GRAVITY 9.81f
+#define FALL_DEATH_THRESHOLD -50.0f
+#define SPAWN_HEIGHT 5.0f
 
 void init_player(Player *player) {
   player->health = 100;
@@ -114,8 +116,8 @@ void update_player(Player *player, float camera_angle) {
   }
 
   // respawn if fallen off the map
-  if (player->position.y < -50.0f) {
-    player->position = (Vector3){0.0f, 5.0f, 0.0f};
+  if (player->position.y < FALL_DEATH_THRESHOLD) {
+    player->position = (Vector3){0.0f, SPAWN_HEIGHT, 0.0f};
     player->velocity = (Vector3){0.0f, 0.0f, 0.0f};
   }
 }
@@ -126,7 +128,7 @@ void update_kill_count(Player *player, int amount) {
 
 void respawn_player(Player *player) {
   player->health = 100;
-  player->position = (Vector3){0.0f, 0.0f, 0.0f};
+  player->position = (Vector3){0.0f, SPAWN_HEIGHT, 0.0f};
   player->velocity = (Vector3){0.0f, 0.0f, 0.0f};
   player->direction = 0.0f;
   player->is_moving = false;

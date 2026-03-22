@@ -10,6 +10,7 @@
 
 #define AURA_FRAME_COUNT 60
 #define AURA_RING_COUNT 12
+#define AURA_FRAME_DURATION 0.1f
 
 void init_aura(Aura *aura) {
   if (aura == NULL)
@@ -28,7 +29,7 @@ void init_aura(Aura *aura) {
   }
 
   aura->current_frame = 0;
-  aura->frame_timer = 0.1f;
+  aura->frame_timer = AURA_FRAME_DURATION;
 }
 
 void aura_attack() {
@@ -60,7 +61,7 @@ void aura_attack() {
   // advance aura animation frame
   aura.frame_timer -= Time.delta_time;
   if (aura.frame_timer <= 0.0f) {
-    aura.frame_timer = 0.1f;
+    aura.frame_timer = AURA_FRAME_DURATION;
     aura.current_frame++;
     if (aura.current_frame >= aura.frame_count) {
       aura.current_frame = 0;
