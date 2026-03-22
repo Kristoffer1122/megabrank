@@ -24,6 +24,7 @@ typedef struct {
   int defense;
   Vector3 position;
   Vector3 health_bar_offset;
+  float damage_accumulator;
 
 } Enemy;
 
