@@ -11,7 +11,8 @@
 #define SPAWN_HEIGHT 5.0f
 
 void init_player(Player *player) {
-  player->health = 100;
+  player->health = 100.0f;
+  player->max_health = 100.0f;
   player->experience = 0;
   player->level = 1;
   player->xp_to_next_level = 100;

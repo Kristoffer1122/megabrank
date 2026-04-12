@@ -72,7 +72,7 @@ int main() {
     int bar_y = 100;
     int bar_width = 200;
     int bar_height = 20;
-    int health_width = (int)((float)player.health / 100.0f * bar_width);
+    int health_width = (int)(player.health / player.max_health * bar_width);
     if (health_width < 0) health_width = 0;
     if (health_width > bar_width) health_width = bar_width;
 

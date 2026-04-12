@@ -1,12 +1,13 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include <raylib.h>
 #include "./enemies.h"
+#include <raylib.h>
 
 typedef struct {
   bool is_moving;
-  int health;
+  float health;
+  float max_health;
 
   int experience;
   int level;
@@ -38,18 +39,18 @@ void level_up(Player *player);
 
 extern Player player;
 
-void init_player(Player* player);
+void init_player(Player *player);
 
-void update_player(Player* player, float camera_angle);
+void update_player(Player *player, float camera_angle);
 
-void update_attacks(Player* player);
+void update_attacks(Player *player);
 
 void update_kill_count(Player *player, int amount);
 
 void respawn_player(Player *player);
 
-void draw_player(Player* player);
+void draw_player(Player *player);
 
-void unload_player(Player* player);
+void unload_player(Player *player);
 
 #endif
